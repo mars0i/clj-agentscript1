@@ -41,15 +41,21 @@
 ;(def sim (model abm sim-params)) ; called this way, it complains because params it gets is ABM
 ;(def sim ((.Model abm) sim-params)) ; runs but complains because params it gets is ABM
 ;(def sim (.Model js/ABM sim-params)) ; runs, but 'this' points to ABM, which doesn't have prototype's functions
-;(this-as this (def sim (.Model sim-params))) ; runs, but 'this' points to sim-params
-;(this-as this (def sim (.Model this sim-params))) ; runs, but 'this' points to global which doesn't have prototype's functions
 ;(def sim (model model sim-params)) ; runs, but complains because params it gets is model
 ;(def sim (model js/this sim-params)) ; runs, but "this$" is undefined
+;(def sim (model sim-params)) ; runs, but 'this' points to index.html, which doesn't have prototype's functions
+;(this-as this (def sim (.Model sim-params))) ; runs, but 'this' points to sim-params
+;(this-as this (def sim (.Model this sim-params))) ; runs, but 'this' points to global which doesn't have prototype's functions
 ;(this-as this (def sim (.Model this abm sim-params))) 
-(def sim (model sim-params)) ; runs, but 'this' points to index.html, which doesn't have prototype's functions
+;(this-as this (def sim (model sim-params)))
+;(this-as this (def sim (.call model this sim-params))) ; actually passes this to model, but it's not the right one
+;(this-as this (def sim (.call model model sim-params))) ; actually passes this to model, but it's not the right one
+;(this-as this (def sim (.call model abm sim-params))) ; actually passes this to model, but it's not the right one
+;(def sim (.call model model sim-params))
+;(def sim (let [sim (.call model model sim-params)] (.call model sim sim-params))) ; crazy.  and it doesn't work.
 
-(println abm)
-(println sim)
+;(println abm)
+;(println sim)
 
 (.debug sim)
 (.start sim)
