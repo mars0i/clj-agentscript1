@@ -16,14 +16,14 @@
 (def model (.-Model abm))
 (def prototype (.-prototype model))
 
-;; STARTUP: leave as default
+; STARTUP: leave default
 
-;; SETUP:
+; SETUP:
 (set! (.-setup prototype)
       (fn []
         (println "setup")))
 
-;; STEP:
+; STEP:
 (set! (.-step prototype)  ; STEP
       (fn []
         (println "step")))
@@ -47,6 +47,9 @@
 ;(def sim (model js/this sim-params)) ; runs, but "this$" is undefined
 ;(this-as this (def sim (.Model this abm sim-params))) 
 (def sim (model sim-params)) ; runs, but 'this' points to index.html, which doesn't have prototype's functions
+
+(println abm)
+(println sim)
 
 (.debug sim)
 (.start sim)
