@@ -2,7 +2,6 @@
 
 // I think it comes from agentscript/src/model.coffee -Marshall
 
-
 (function() {
   console.log("Yow! Loading agentscript.js")
 
