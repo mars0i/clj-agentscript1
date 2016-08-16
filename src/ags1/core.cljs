@@ -68,10 +68,10 @@
         (println "setup")
 
         ;; Kludge: This function gets called via setupAndEmit() when the 
-        ;; Model is new'd below, i.e. when the object to which it must 
-        ;; refer, which we put in sim, has not been defined. !  So we 
-        ;; have to test to see if @sim exists yet, to prevent this
-        ;; function from doing anything, *and then explicitly call it later*.
+        ;; Model is new'd below, but at that point we can't refer to the
+        ;; object from Clojurescript.  So test whether @sim has a model
+        ;; in it, and if not, do nothing more.  Then call this function
+        ;; explicitly after the model has been created.
         (when-let [s @sim]
           (let [turtles (.-turtles s)
                 patches (.-patches s)]
