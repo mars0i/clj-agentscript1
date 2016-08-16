@@ -4302,7 +4302,9 @@
     };
 
     function Model(args) {
-      console.log(this); // MARSHALL DEBUG
+      //console.log(this); // MARSHALL DEBUG
+      //console.log(this.constructor.name); // MARSHALL DEBUG
+      //console.log(this.constructor.toString()); // MARSHALL DEBUG
       var ctx, k, options, ref, s, v;
       options = Model.defaultOptions();
       if (!u.isObject(args)) {
