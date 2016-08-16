@@ -4,7 +4,7 @@
 
 ;; NOTES:
 ;; 
-;; 1. The definition of Model in agentscript.js makes repeated references
+;; The definition of Model in agentscript.js makes repeated references
 ;; to 'this', which in that context apparently refers to the instance
 ;; of the Model.  Works fine when run from Javascript, but when I run it
 ;; from Clojurescript (with :optimizations :none, so no name munging),
@@ -12,40 +12,25 @@
 ;; (and I don't see any way to fix this using 'this-as').
 ;; i.e. that's what happens if you create a new model using e.g. (.Model ...).
 ;; However, if you create the new model using 'new', it gets the right 'this'.
-;; Then I can refer to the appropriate object in my code by referring, e.g.
-;; in the step function, to the model that I new'ed.  So far so good.
-;; 
-;; 2. Note however that since I attach code to the prototype that manipulates
-;; the model, which hasn't yet been created, I am kludging this problem
-;; by putting the model in an atom.  Ugh.  But ok.  (Javascript solves this 
-;; using 'this'.)
 ;;
-;; 3. You also define your own setup() function on the Model prototype, which
-;; is then used by the model you create using '(new Model ...)'.
-;; This function is normally run when you new the Model; it's called by
-;; setupAndEmit().  Unfortunately, in Clojurescript, when this is happening,
-;; the variable that refers to my new model hasn't quite been defined, so
-;; when setup() is called in the construction process, it won't run properly,
-;; i.e. because the code inside it uses a variable that hasn't yet been
-;; defined when this code is run.  So ...
-;; in the setup() function, I test whether the model (in sim) that the
-;; code will refer to has been defined yet.  When step() runs in the Model
-;; constructor, @sim is nil, so none of the rest of the code in step() will
-;; run.  However, we still need to run step() !   So I call it explicitly
-;; after I've reset! sim, but before calling start().
+;; Then you can refer to the model from which you run setup and step functions
+;; that you've defined by using this-as within these function defs.
+;; There are other ways to do this with step(), but you have to jump through
+;; hoops to avoid using this-as in setup, because it's called automatically
+;; when you new the model, whose constructor calls setupAndEmit(), which
+;; calls setup().
+;;
+;; Note that set! needs to see the literal field access; you can't 
+;; put the field access result in a variable and then set! it.
+;; If you are setting w.x.y.z, you apparently need to put the whole
+;; path in: (set! (.-z (.-y (.-x w))) newval).
 
 (ns ags1.core
   (:require ))
 
 (enable-console-print!)
 
-(def tick (atom 0))
-(def sim (atom nil)) ; we'll put sim (model) here so we can refer to it in its methods before it's defined
-
-(defn on-js-reload []
-  ;(.reset @sim) ; doesn't work
-  )
-
+(defn on-js-reload [])
 
 (def abm (this-as that (.-ABM that)))
 (def util (.-Util abm))
@@ -63,59 +48,50 @@
 ; STARTUP: leave default
 
 ; SETUP:
-(set! (.-setup (.-prototype (.-Model abm))) ; what doesn't work: (set! (.-setup prototype) ...)
+(set! (.-setup (.-prototype (.-Model abm)))
       (fn []
-        (println "setup")
-
-        ;; Kludge: This function gets called via setupAndEmit() when the 
-        ;; Model is new'd below, but at that point we can't refer to the
-        ;; object from Clojurescript.  So test whether @sim has a model
-        ;; in it, and if not, do nothing more.  Then call this function
-        ;; explicitly after the model has been created.
-        (when-let [s @sim]
-          (let [turtles (.-turtles s)
-                patches (.-patches s)]
+        (this-as this
+          (let [turtles (.-turtles this)
+                patches (.-patches this)]
             
             ;; TODO:
             ;; When I reload with figwheel, the old turtle icons seem to
             ;; hang around, although I don't think the turtles exist.
             ;; Some failed attempts to fix this:
-            ;(.clear (.-turtles s)) 
-            ;(.clear (.-drawing s))
-            ;(.reset s)
+            ;(.clear (.-turtles this)) 
+            ;(.clear (.-drawing this))
+            ;(.reset this)
 
-            ;; Note that set! needs to see the literal field access; you can't 
-            ;; get the field access's result in a variable and then set! it.
-            (set! (.-refreshPatches s) false)
-            (set! (.-refreshLinks s) false)
-            (.setUseSprites (.-turtles s))
-            (set! (.-population s) 100)
-            (set! (.-speed s) 0.5)
-            (set! (.-wiggle s) (.degToRad util 30))
+            (set! (.-refreshPatches this) false)
+            (set! (.-refreshLinks this) false)
+            (.setUseSprites (.-turtles this))
+            (set! (.-population this) 100)
+            (set! (.-speed this) 0.5)
+            (set! (.-wiggle this) (.degToRad util 30))
 
             (doseq [p patches]
               (set! (.-color p) (.randomGray util)))
 
-            (.create turtles (.-population s))
+            (.create turtles (.-population this))
             (doseq [t turtles]
-              (let [pt (js->clj (.randomPt (.-patches s)))]
+              (let [pt (js->clj (.randomPt (.-patches this)))]
                 (.setXY t (first pt) (second pt))))
 
             (println "patches; "  (count patches)
                      " turtles: " (count turtles))))))
 
 ; STEP:
-(set! (.-step (.-prototype (.-Model abm))) ; what doesn't work: (set! (.-step prototype) ...)
+;(def tick (atom 0))
+(set! (.-step (.-prototype (.-Model abm)))
       (fn []
-        ;(swap! tick inc)
-        ;(when (> @tick 500) (.stop @sim))
-        (doseq [t (.-turtles @sim)]
-          (.rotate t (.randomCentered util (.-wiggle @sim)))
-          (.forward t (.-speed @sim)))))
+        (this-as this
+          ;(swap! tick inc)
+          ;(when (> @tick 500) (.stop this))
+          (doseq [t (.-turtles this)]
+            (.rotate t (.randomCentered util (.-wiggle this)))
+            (.forward t (.-speed this))))))
 
 ;; Create the model:
-(reset! sim (new model sim-params))
-
-(.debug @sim) ; Put Model vars in global name space
-(.setup @sim) ; Call explicitly since we disabled it during the 'new' call
-(.start @sim) ; Run the model!
+(def sim (new model sim-params))
+(.debug sim) ; Put Model vars in global name space
+(.start sim) ; Run the model!
