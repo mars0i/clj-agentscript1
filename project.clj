@@ -52,8 +52,6 @@
                 :compiler {:output-to "resources/public/js/compiled/ags1.js"
                            :main ags1.core
                            :optimizations :advanced
-                           ;:language-in :ecmascript5 ;; MARSHALL's
-                           ;:language-out :ecmascript5 ;; MARSHALL's
                            :pretty-print false}}
                {:id "max"
                 :source-paths ["src"]

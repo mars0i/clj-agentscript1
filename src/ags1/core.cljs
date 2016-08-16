@@ -75,6 +75,8 @@
 ;; hang around, although I don't think the turtles exist.  Here are
 ;; some failed attempts to fix this:
 (defn on-js-reload []
+  ;(.setup sim)
+  ;(.start sim) ; Run the model!
   ;(.clear (.-turtles sim))  ; doesn't get rid of turtle ghosts, and no new turtles
   ;(.clear (.-drawing sim)) ; doesn't get rid of turtle ghosts
   ;(.reset sim) ; extreme: seems to break everything
