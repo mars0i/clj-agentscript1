@@ -32,7 +32,12 @@
 
 (defn on-js-reload [])
 
-(def abm (this-as that (.-ABM that)))
+(def max-ticks 500) ; runs this many ticks
+;(def max-ticks nil) ; runs forever
+
+;; Uses this = top-level window:
+(def abm (this-as this-top (.-ABM this-top)))   
+
 (def util (.-Util abm))
 (def model (.-Model abm))
 
@@ -49,46 +54,46 @@
 ; SETUP:
 (set! (.-setup (.-prototype (.-Model abm)))
       (fn []
-        (this-as this
-          (let [turtles (.-turtles this)
-                patches (.-patches this)]
+        (this-as this-inst   ; this: the current instance of Model
+          (let [turtles (.-turtles this-inst)
+                patches (.-patches this-inst)]
             
             ;; TODO:
             ;; When I reload with figwheel, the old turtle icons seem to
             ;; hang around, although I don't think the turtles exist.
             ;; Some failed attempts to fix this:
-            ;(.clear (.-turtles this)) 
-            ;(.clear (.-drawing this))
-            ;(.reset this)
+            ;(.clear (.-turtles this-inst)) 
+            ;(.clear (.-drawing this-inst))
+            ;(.reset this-inst)
 
-            (set! (.-refreshPatches this) false)
-            (set! (.-refreshLinks this) false)
-            (.setUseSprites (.-turtles this))
-            (set! (.-population this) 100)
-            (set! (.-speed this) 0.5)
-            (set! (.-wiggle this) (.degToRad util 30))
+            (set! (.-refreshPatches this-inst) false)
+            (set! (.-refreshLinks this-inst) false)
+            (.setUseSprites (.-turtles this-inst))
+            (set! (.-population this-inst) 100)
+            (set! (.-speed this-inst) 0.5)
+            (set! (.-wiggle this-inst) (.degToRad util 30))
 
             (doseq [p patches]
               (set! (.-color p) (.randomGray util)))
 
-            (.create turtles (.-population this))
+            (.create turtles (.-population this-inst))
             (doseq [t turtles]
-              (let [pt (js->clj (.randomPt (.-patches this)))]
+              (let [pt (js->clj (.randomPt (.-patches this-inst)))]
                 (.setXY t (first pt) (second pt))))
 
             (println "patches; "  (count patches)
                      " turtles: " (count turtles))))))
 
 ; STEP:
-;(def tick (atom 0))
 (set! (.-step (.-prototype (.-Model abm)))
       (fn []
-        (this-as this
-          ;(swap! tick inc)
-          ;(when (> @tick 500) (.stop this))
-          (doseq [t (.-turtles this)]
-            (.rotate t (.randomCentered util (.-wiggle this)))
-            (.forward t (.-speed this))))))
+        (this-as this-inst   ; this: the current instance of Model
+           (when (and max-ticks 
+                      (> (.-ticks (.-anim this-inst)) max-ticks))
+             (.stop this-inst))
+           (doseq [t (.-turtles this-inst)]
+                   (.rotate t (.randomCentered util (.-wiggle this-inst)))
+                   (.forward t (.-speed this-inst))))))
 
 ;; Create the model:
 (def sim (new model sim-params))
