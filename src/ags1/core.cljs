@@ -35,7 +35,6 @@
 (def abm (this-as that (.-ABM that)))
 (def util (.-Util abm))
 (def model (.-Model abm))
-(def prototype (.-prototype model))
 
 (def sim-params (clj->js {:div "layers"
                           :size 13
