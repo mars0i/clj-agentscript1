@@ -34,22 +34,23 @@
 ;; run.  However, we still need to run step() !   So I call it explicitly
 ;; after I've reset! sim, but before calling start().
 
-
 (ns ags1.core
   (:require ))
 
 (enable-console-print!)
-(println "This text is printed from src/ags1/core.cljs. Go ahead and edit it and see reloading in action.")
-(defn on-js-reload [])
+
+(def tick (atom 0))
+(def sim (atom nil)) ; we'll put sim (model) here so we can refer to it in its methods before it's defined
+
+(defn on-js-reload []
+  ;(.reset @sim) ; doesn't work
+  )
 
 
 (def abm (this-as that (.-ABM that)))
 (def util (.-Util abm))
 (def model (.-Model abm))
 (def prototype (.-prototype model))
-
-(def tick (atom 0))
-(def sim (atom nil)) ; we'll put sim (model) here so we can refer to it in its methods before it's defined
 
 (def sim-params (clj->js {:div "layers"
                           :size 13
@@ -74,12 +75,14 @@
         (when-let [s @sim]
           (let [turtles (.-turtles s)
                 patches (.-patches s)]
-
+            
+            ;; TODO:
             ;; When I reload with figwheel, the old turtle icons seem to
             ;; hang around, although I don't think the turtles exist.
             ;; Some failed attempts to fix this:
             ;(.clear (.-turtles s)) 
             ;(.clear (.-drawing s))
+            ;(.reset s)
 
             ;; Note that set! needs to see the literal field access; you can't 
             ;; get the field access's result in a variable and then set! it.
@@ -104,8 +107,8 @@
 ; STEP:
 (set! (.-step (.-prototype (.-Model abm))) ; what doesn't work: (set! (.-step prototype) ...)
       (fn []
-        (swap! tick inc)
-        (when (> @tick 500) (.stop @sim))
+        ;(swap! tick inc)
+        ;(when (> @tick 500) (.stop @sim))
         (doseq [t (.-turtles @sim)]
           (.rotate t (.randomCentered util (.-wiggle @sim)))
           (.forward t (.-speed @sim)))))
