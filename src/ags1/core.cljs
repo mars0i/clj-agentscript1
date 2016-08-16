@@ -19,12 +19,15 @@
 ; STARTUP: leave default
 
 ; SETUP:
-(set! (.-setup prototype)
+;(set! (.-setup prototype)
+(set! (.-setup (.-prototype (.-Model abm)))
       (fn []
         (println "setup")))
 
 ; STEP:
-(set! (.-step prototype)  ; STEP
+;(set! (.-step prototype)  ; STEP
+;(set! (.. abm (.-Model) (.-prototype) (.-step)) ; doesn't work
+(set! (.-step (.-prototype (.-Model abm)))
       (fn []
         (println "step")))
 
@@ -53,9 +56,9 @@
 ;(this-as this (def sim (.call model abm sim-params))) ; actually passes this to model, but it's not the right one
 ;(def sim (.call model model sim-params))
 ;(def sim (let [sim (.call model model sim-params)] (.call model sim sim-params))) ; crazy.  and it doesn't work.
+(def sim (new model sim-params))
 
-;(println abm)
-;(println sim)
+(println sim)
 
 (.debug sim)
 (.start sim)
