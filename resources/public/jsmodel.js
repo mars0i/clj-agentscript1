@@ -21,7 +21,10 @@ myModel = function () {
     }
     console.log("patches: " + this.patches.length + " turtles: " + this.turtles.length);
   };
+  var tick = 0;
   ABM.Model.prototype.step = function () {
+    if (tick++ >= 100) {ABM.Model.prototype.stop();}; // MARSHALL
+
     for (var i=0; i < this.turtles.length; i++) {
       var a = this.turtles[i];
       a.rotate(u.randomCentered(this.wiggle));
