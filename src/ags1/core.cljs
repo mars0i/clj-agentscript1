@@ -1,35 +1,55 @@
+;; Marshall Abrams
+;; port of jsmodel.html from the agentscript site to Clojurescript.
+;; Copyright 2016 Marshall Abrams. Released under GPL 3.0.
+
+;; NOTES:
+;; 
+;; 1. The definition of Model in agentscript.js makes repeated references
+;; to 'this', which in that context apparently refers to the instance
+;; of the Model.  Works fine when run from Javascript, but when I run it
+;; from Clojurescript (with :optimizations :none, so no name munging),
+;; by default this in the Model def refers to the top-level window
+;; (and I don't see any way to fix this using 'this-as').
+;; i.e. that's what happens if you create a new model using e.g. (.Model ...).
+;; However, if you create the new model using 'new', it gets the right 'this'.
+;; Then I can refer to the appropriate object in my code by referring, e.g.
+;; in the step function, to the model that I new'ed.  So far so good.
+;; 
+;; 2. Note however that since I attach code to the prototype that manipulates
+;; the model, which hasn't yet been created, I am kludging this problem
+;; by putting the model in an atom.  Ugh.  But ok.  (Javascript solves this 
+;; using 'this'.)
+;;
+;; 3. You also define your own setup() function on the Model prototype, which
+;; is then used by the model you create using '(new Model ...)'.
+;; This function is normally run when you new the Model; it's called by
+;; setupAndEmit().  Unfortunately, in Clojurescript, when this is happening,
+;; the variable that refers to my new model hasn't quite been defined, so
+;; when setup() is called in the construction process, it won't run properly,
+;; i.e. because the code inside it uses a variable that hasn't yet been
+;; defined when this code is run.  So ...
+;; in the setup() function, I test whether the model (in sim) that the
+;; code will refer to has been defined yet.  When step() runs in the Model
+;; constructor, @sim is nil, so none of the rest of the code in step() will
+;; run.  However, we still need to run step() !   So I call it explicitly
+;; after I've reset! sim, but before calling start().
+
+
 (ns ags1.core
   (:require ))
 
 (enable-console-print!)
 (println "This text is printed from src/ags1/core.cljs. Go ahead and edit it and see reloading in action.")
-
-;; NOTE I can get rid of the this.setWorld etc errors by passing
-;; this.prototype via .call() to Model in agentscript.js, but
-;; then I get "abm is undefined" on the line that let-defines util.  WTF.
-;; This *does not* happen when I use the original agentscript.js.
-
 (defn on-js-reload [])
+
 
 (def abm (this-as that (.-ABM that)))
 (def util (.-Util abm))
 (def model (.-Model abm))
 (def prototype (.-prototype model))
 
-; STARTUP: leave default
-
-; SETUP:
-;(set! (.-setup prototype)
-(set! (.-setup (.-prototype (.-Model abm)))
-      (fn []
-        (println "setup")))
-
-; STEP:
-;(set! (.-step prototype)  ; STEP
-;(set! (.. abm (.-Model) (.-prototype) (.-step)) ; doesn't work
-(set! (.-step (.-prototype (.-Model abm)))
-      (fn []
-        (println "step")))
+(def tick (atom 0))
+(def sim (atom nil)) ; we'll put sim (model) here so we can refer to it in its methods before it's defined
 
 (def sim-params (clj->js {:div "layers"
                           :size 13
@@ -39,26 +59,60 @@
                           :maxY 16
                           :isTorus true}))
 
-;(def sim (abm/Model sim-params)) ; doesn't run
-;(def sim (ABM/Model sim-params)) ; doesn't run
-;(def sim (model abm sim-params)) ; called this way, it complains because params it gets is ABM
-;(def sim ((.Model abm) sim-params)) ; runs but complains because params it gets is ABM
-;(def sim (.Model js/ABM sim-params)) ; runs, but 'this' points to ABM, which doesn't have prototype's functions
-;(def sim (model model sim-params)) ; runs, but complains because params it gets is model
-;(def sim (model js/this sim-params)) ; runs, but "this$" is undefined
-;(def sim (model sim-params)) ; runs, but 'this' points to index.html, which doesn't have prototype's functions
-;(this-as this (def sim (.Model sim-params))) ; runs, but 'this' points to sim-params
-;(this-as this (def sim (.Model this sim-params))) ; runs, but 'this' points to global which doesn't have prototype's functions
-;(this-as this (def sim (.Model this abm sim-params))) 
-;(this-as this (def sim (model sim-params)))
-;(this-as this (def sim (.call model this sim-params))) ; actually passes this to model, but it's not the right one
-;(this-as this (def sim (.call model model sim-params))) ; actually passes this to model, but it's not the right one
-;(this-as this (def sim (.call model abm sim-params))) ; actually passes this to model, but it's not the right one
-;(def sim (.call model model sim-params))
-;(def sim (let [sim (.call model model sim-params)] (.call model sim sim-params))) ; crazy.  and it doesn't work.
-(def sim (new model sim-params))
+; STARTUP: leave default
 
-(println sim)
+; SETUP:
+(set! (.-setup (.-prototype (.-Model abm))) ; what doesn't work: (set! (.-setup prototype) ...)
+      (fn []
+        (println "setup")
 
-(.debug sim)
-(.start sim)
+        ;; Kludge: This function gets called via setupAndEmit() when the 
+        ;; Model is new'd below, i.e. when the object to which it must 
+        ;; refer, which we put in sim, has not been defined. !  So we 
+        ;; have to test to see if @sim exists yet, to prevent this
+        ;; function from doing anything, *and then explicitly call it later*.
+        (when-let [s @sim]
+          (let [turtles (.-turtles s)
+                patches (.-patches s)]
+
+            ;; When I reload with figwheel, the old turtle icons seem to
+            ;; hang around, although I don't think the turtles exist.
+            ;; Some failed attempts to fix this:
+            ;(.clear (.-turtles s)) 
+            ;(.clear (.-drawing s))
+
+            ;; Note that set! needs to see the literal field access; you can't 
+            ;; get the field access's result in a variable and then set! it.
+            (set! (.-refreshPatches s) false)
+            (set! (.-refreshLinks s) false)
+            (.setUseSprites (.-turtles s))
+            (set! (.-population s) 100)
+            (set! (.-speed s) 0.5)
+            (set! (.-wiggle s) (.degToRad util 30))
+
+            (doseq [p patches]
+              (set! (.-color p) (.randomGray util)))
+
+            (.create turtles (.-population s))
+            (doseq [t turtles]
+              (let [pt (js->clj (.randomPt (.-patches s)))]
+                (.setXY t (first pt) (second pt))))
+
+            (println "patches; "  (count patches)
+                     " turtles: " (count turtles))))))
+
+; STEP:
+(set! (.-step (.-prototype (.-Model abm))) ; what doesn't work: (set! (.-step prototype) ...)
+      (fn []
+        (swap! tick inc)
+        (when (> @tick 500) (.stop @sim))
+        (doseq [t (.-turtles @sim)]
+          (.rotate t (.randomCentered util (.-wiggle @sim)))
+          (.forward t (.-speed @sim)))))
+
+;; Create the model:
+(reset! sim (new model sim-params))
+
+(.debug @sim) ; Put Model vars in global name space
+(.setup @sim) ; Call explicitly since we disabled it during the 'new' call
+(.start @sim) ; Run the model!
