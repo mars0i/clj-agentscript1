@@ -1,6 +1,6 @@
 # ags1
 Experiments with [Clojurescript](http://clojurescript.org) and
-[AgentScript](http://agentscript.org).
+[AgentScript](http://agentscript.org)
 
 ## License
 
@@ -44,14 +44,15 @@ libraries.  I may work on this at some point.)
 
 ### Files
 
-The files used here are:
+The source files used here are:
 
-* src/ags1/core.cljs (main source file)
 * resources/public/index.html
-* resources/public/css/site.css
+* src/ags1/core.cljs (main source file)
+* resources/public/css/site.css (empty at present)
 * resources/public/lib/*.js
+* project.clj (Leiningen configuration file)
 
-The latter were copied from the Agentscript repo.
+The files in lib were copied from the Agentscript repo.  
 
 ### Clojurescript-Javascript interop tips
 
@@ -78,17 +79,15 @@ setupAndEmit(), which calls setup().)
 Agentscript is written in Coffeescript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
 
-Most of the example simulations are written in CoffeeScript, but
-jsmodel.html contains a Javascript model.  The Clojurescript model
-here is a simple port of that model.
+Most of the example simulations at agentscript.org and its github repo
+are written in CoffeeScript, but jsmodel.html contains a Javascript
+model.  The Clojurescript model here is a simple port of that model.
 
 You don't necessarily have to learn CoffeeScript (I didn't) to benefit
 from reading some parts of the CoffeeScript source files, if you're
-willing to do some guessing.
+willing to do some guessing.  template.coffee contains many useful
+comments and configuration options (or see its generated doc file).
 
-template.coffee contains many useful comments and configuration options
-(or see its generated doc file).
-
-The main library file is agentscript.js, which is compiled from
-model.coffee.  See that file or the doc generated from it for more info
-about what's going on in agentscript.js.
+The main library file is agentscript.js (or agentscript.min.js), which
+is compiled from model.coffee.  See that file or the doc generated from
+it for more info about what's going on in agentscript.js.
