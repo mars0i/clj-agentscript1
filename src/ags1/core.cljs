@@ -41,18 +41,16 @@
             (set! (.-speed this-inst) 0.5)            ; how fast do they go?
             (set! (.-wiggle this-inst) (.degToRad util 30))
 
-            (println "patches; "  (count patches) " turtles: " (count turtles))
-
             (doseq [p patches]
               (set! (.-color p) (.randomGray util)))
 
             (.create turtles (.-population this-inst))
+
             (doseq [t turtles]
               (let [pt (js->clj (.randomPt (.-patches this-inst)))]
                 (.setXY t (first pt) (second pt))))
 
-            (println "patches; "  (count patches) " turtles: " (count turtles))
-            ))))
+            (println "patches; "  (count patches) " turtles: " (count turtles))))))
 
 ; STEP:
 (set! (.-step (.-prototype (.-Model abm)))
@@ -66,37 +64,17 @@
                    (.forward t (.-speed this-inst))))))
 
 ;; Create the model:
-(def sim (new model sim-params)) ; '(model. sim-params)' works, too
+(defonce sim (new model sim-params)) ; '(model. sim-params)' works, too
 (.debug sim) ; print info to console, put model vars in global name space
 (.start sim) ; Run the model!
 
-;; TODO:
-;; When I reload with figwheel, the old turtle icons seem to
-;; hang around, although I don't think the turtles exist.  Here are
-;; some failed attempts to fix this:
+;; Runs when figwheel reloads the compiled version of this source:
 (defn on-js-reload []
-  ;(.setup sim)
-  ;(.start sim) ; Run the model!
-  ;(.clear (.-turtles sim))  ; doesn't get rid of turtle ghosts, and no new turtles
-  ;(.clear (.-drawing sim)) ; doesn't get rid of turtle ghosts
-  ;(.reset sim) ; extreme: seems to break everything
-  ;(doseq [t (.-turtles sim)] (.die t))
-  ;(let [ctx (.-ctx (.-sprite (first (.-turtles sim))))
-  ;      canvas (.-canvas ctx)]
-  ;  (.setTransform ctx 1 0 0 1 0 0) ; set transform back to identity
-  ;(set! (.-startup (.-prototype (.-Model abm)))
-  ;     (fn []
-  ;       (this-as this-inst
-  ;         (let [ctx (.-ctx (.-sprite (first (.-turtles this-inst))))
-  ;               canvas (.-canvas ctx)]
-  ;           ;(.setTransform ctx 1 0 0 1 0 0) ; set transform back to identity
-  ;           (.clearRect ctx 0 0 (.-width canvas) (.-height canvas))))))
-)
+  (.reset sim true))  ; reset and stop the model. start above will restart it.
 
-;(set! (.-startup (.-prototype (.-Model abm)))
-;      (fn []
-;        (this-as this-inst
-;          (let [ctx (.-ctx (.-sprite (first (.-turtles this-inst))))
-;                canvas (.-canvas ctx)]
-;            ;(.setTransform ctx 1 0 0 1 0 0) ; set transform back to identity
-;            (.clearRect ctx 0 0 (.-width canvas) (.-height canvas))))))
+;; Above we use defonce rather than def, and the call to reset in on-js-reload 
+;; in order to work well with figwheel, which is an add-on to Leiningen, a 
+;; standard build tool for Clojure and Clojurescript.  Figwheel reloads the 
+;; code into the browser when source files are touched.  Without these tweaks 
+;; there will be multiple instances of the model running at once and/or things
+;; will get confused in the browser in other ways.
