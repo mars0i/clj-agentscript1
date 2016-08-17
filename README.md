@@ -81,16 +81,16 @@ Mind the Clojurescript distinction between property accesses using
 myobj)`; you can't assign the property accessor result to a variable and
 then set! the variable.
 
-Note that Clojurescript doesn't have a constant `this` pointer
-available.  The `this-as` macro is used to provide an alias to whatever
+Note that Clojurescript doesn't have a `this` pointer by default.
+The `this-as` macro is used to provide an alias to whatever
 is the current `this` in a given context.
 
 You can refer to the model from which you run `setup` and `step`
 functions that you've defined by using `this-as` within these function
-defs.  (There are other ways to do this with step(), but you have to
-jump through hoops to avoid using this-as in setup, because it's called
-automatically when you new the model, whose constructor calls
-setupAndEmit(), which calls setup().)
+defs.  (There are other ways to do this with step(), but then you'd
+have to jump through hoops to avoid using `this-as` in setup, because
+it's called automatically when you new the model, whose constructor
+calls `setupAndEmit()` which calls `setup()`.)
 
 ### Agentscript tips
 
@@ -103,8 +103,9 @@ model.  The Clojurescript model here is a simple port of that model.
 
 You don't necessarily have to learn CoffeeScript (I didn't) to benefit
 from reading some parts of the CoffeeScript source files, if you're
-willing to do some guessing.  template.coffee contains many useful
-comments and configuration options (or see its generated doc file).
+willing to do some guessing.  Among other things, the template.coffee
+model contains many useful comments and configuration options (or see
+its generated doc file).
 
 The main library file is agentscript.js (or agentscript.min.js), which
 is compiled from model.coffee.  See that file or the doc generated from
