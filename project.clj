@@ -32,9 +32,8 @@
                            ;; started and complied your application.
                            ;; Comment this out once it no longer serves you.
                            :open-urls ["http://localhost:3449/index.html"]}
-
                 :compiler {:main ags1.core
-			   :externs ["resources/lib/agentscript.js"] ;; MARSHALL's IS THIS RIGHT??
+			   ;:externs ["resources/lib/agentscript.js"] ;; MARSHALL's IS THIS RIGHT??
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/ags1.js"
                            :output-dir "resources/public/js/compiled/out"
@@ -55,9 +54,11 @@
                            :pretty-print false}}
                {:id "max"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/ags1.js"
+                :compiler {:asset-path "js/compiled/max"
+                           :output-to "resources/public/js/compiled/ags1.js"
+                           :output-dir "resources/public/js/compiled/max"
                            :main ags1.core
-                           :optimizations :none
+                           :optimizations :simple ; :none
                            :pretty-print true}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
