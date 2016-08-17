@@ -67,10 +67,11 @@
 (defonce sim (new model sim-params)) ; '(model. sim-params)' works, too
 (.debug sim) ; print info to console, put model vars in global name space
 (.start sim) ; Run the model!
+;(.reset sim true) ; this works, too
 
 ;; Runs when figwheel reloads the compiled version of this source:
 (defn on-js-reload []
-  (.reset sim true))  ; reset and stop the model. start above will restart it.
+  (.reset sim true))  ; reset the model
 
 ;; Above we use defonce rather than def, and the call to reset in on-js-reload 
 ;; in order to work well with figwheel, which is an add-on to Leiningen, a 
