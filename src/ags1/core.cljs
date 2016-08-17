@@ -65,9 +65,8 @@
 
 ;; Create the model:
 (defonce sim (new model sim-params)) ; '(model. sim-params)' works, too
-(.debug sim) ; print info to console, put model vars in global name space
-(.start sim) ; Run the model!
-;(.reset sim true) ; this works, too
+;(.debug sim) ; print info to console, put model vars in global name ;space, make a turtle corral over on the right
+(.start sim) ; Run the model!  (.reset sim true) works here, too
 
 ;; Runs when figwheel reloads the compiled version of this source:
 (defn on-js-reload []
