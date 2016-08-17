@@ -58,9 +58,7 @@ wrapper files for the Agentscript libraries, to deal with the fact that
 Closure renames functions in its advanced compilation mode.  I may work
 on this at some point.)
 
-## Notes
-
-### Files
+## Files
 
 The source files used here are:
 
@@ -72,7 +70,7 @@ The source files used here are:
 
 The files in lib were copied from the Agentscript repo.  
 
-### Clojurescript-Javascript interop tips
+## Clojurescript-Javascript interop tips
 
 Mind the Clojurescript distinction between property accesses using
 `(.-foo myobj)` and function calls using `(.bar myobj)`.
@@ -92,21 +90,31 @@ have to jump through hoops to avoid using `this-as` in setup, because
 it's called automatically when you new the model, whose constructor
 calls `setupAndEmit()` which calls `setup()`.)
 
-### Agentscript tips
+## Agentscript tips
+
+For Clojurescript-Javascript interop it can be helpful to understand a
+little bit about the Javascript libraries you're using.  Here are some
+things that I found useful to know along the way.
 
 Agentscript is written in Coffeescript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
 
+The main library file for Agentscript is agentscript.js (or
+agentscript.min.js), which is compiled from model.coffee.  See that file
+or the doc generated from it for more info about what's going on in
+agentscript.js.  
+
+In agentscript.js, `this` usually refers to an instance of the `Model`
+class that's defined there.  This is why a "this" var that you define
+using `this-as` in your Clojurescript `step`, `setup`, or `startup`
+functions refer to this instance: They will be called by `Model` code
+running in your instance of `Model`.
+
 Most of the example simulations at agentscript.org and its github repo
-are written in CoffeeScript, but jsmodel.html contains a Javascript
-model.  The Clojurescript model here is a simple port of that model.
+are written in CoffeeScript.  (jsmodel.html is a Javascript model.)
 
 You don't necessarily have to learn CoffeeScript (I didn't) to benefit
 from reading some parts of the CoffeeScript source files, if you're
 willing to do some guessing.  Among other things, the template.coffee
 model contains many useful comments and configuration options (or see
 its generated doc file).
-
-The main library file is agentscript.js (or agentscript.min.js), which
-is compiled from model.coffee.  See that file or the doc generated from
-it for more info about what's going on in agentscript.js.
