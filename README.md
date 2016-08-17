@@ -48,8 +48,8 @@ run:
 
 This will put all of the files needed to be installed into a directory
 tree under resources/public.  "max" refers to one of the configuration
-options in project.clj.  It uses the Google Closure "simple" compilation
-mode.
+options in project.clj.  It uses the Google Closure compiler's "simple"
+compilation mode.
 
 (The leiningen project.clj file also contains a "min" configuration that
 is supposed to allow fully optimized Google Closure compilation into a
