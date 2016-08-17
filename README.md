@@ -25,20 +25,27 @@ install other necessary libraries.
 
 When that's done, execute `lein figwheel`.  After a few minutes, a new
 browser window should open with the model running it, and you should see
-a Clojurescript repl prompt in your original shell window.
+a Clojurescript REPL prompt in your original shell window.  When you
+save changes to src/ags1/core.cljs, the code will be compiled and the browser 
+will reload the new configuration.  You can inspect variables in
+the running system at the REPL prompt.
 
-To create a version that can be installed one the web (for example),
-exit from the repl (Ctrl-D will do the job), and run:
+To create a standalone version of this model that can be installed on
+the web (for example), exit from the repl (Ctrl-D will do the job), and
+run:
 
     lein do clean, cljsbuild once max
 
 This will put all of the files needed to be installed into a directory
-tree under resources/public.
+tree under resources/public.  "max" refers to one of the configuration
+options in project.clj.  It uses the Google Clojure "simple" compilation
+mode.
 
 (The leiningen project.clj file also contains a "min" configuration that
-might allow fulling optimized compilation using the Google Closure compiler,
-but that won't work until we have some wrapper files for the Agentscript
-libraries.  I may work on this at some point.)
+might allow fulling optimized compilation into a single Javascript file
+using the Google Closure compiler, but that won't work until we have
+some wrapper files for the Agentscript libraries.  I may work on this at
+some point.)
 
 ## Notes
 
