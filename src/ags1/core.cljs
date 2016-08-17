@@ -69,7 +69,7 @@
 
 ;; Runs when figwheel reloads the compiled version of this source:
 (defn on-js-reload []
-  (.reset sim true))  ; reset and restart the model
+  (.reset sim true))  ; reset and restart the model. (.start ...) above is redundant on reload (?)
 
 ;; Above we use defonce rather than def, and the call to reset in on-js-reload 
 ;; in order to work well with figwheel, which is an add-on to Leiningen, a 
