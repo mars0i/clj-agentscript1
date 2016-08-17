@@ -7,8 +7,8 @@
 
 (enable-console-print!)
 
-(def max-ticks 500) ; runs this many ticks
-;(def max-ticks nil) ; runs forever
+;(def max-ticks 500) ; runs this many ticks
+(def max-ticks nil) ; runs forever
 
 ;; Parameters that will be passed to the model (sim, this-inst below):
 (def sim-params (clj->js {:div "layers"
