@@ -38,14 +38,15 @@ run:
 
 This will put all of the files needed to be installed into a directory
 tree under resources/public.  "max" refers to one of the configuration
-options in project.clj.  It uses the Google Clojure "simple" compilation
+options in project.clj.  It uses the Google Closure "simple" compilation
 mode.
 
 (The leiningen project.clj file also contains a "min" configuration that
-might allow fulling optimized compilation into a single Javascript file
-using the Google Closure compiler, but that won't work until we have
-some wrapper files for the Agentscript libraries.  I may work on this at
-some point.)
+is supposed to allow fully optimized Google Closure compilation into a
+single Javascript file, but that won't work without some Clojurescript
+wrapper files for the Agentscript libraries, to deal with the fact that
+Closure renames functions in its advanced compilation mode.  I may work
+on this at some point.)
 
 ## Notes
 
