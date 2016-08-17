@@ -56,8 +56,7 @@
 (set! (.-step (.-prototype (.-Model abm)))
       (fn []
         (this-as this-inst   ; this: the current instance of Model
-           (when (and max-ticks 
-                      (> (.-ticks (.-anim this-inst)) max-ticks))
+           (when (and max-ticks (> (.-ticks (.-anim this-inst)) max-ticks))
              (.stop this-inst))
            (doseq [t (.-turtles this-inst)]
                    (.rotate t (.randomCentered util (.-wiggle this-inst)))
