@@ -1,6 +1,9 @@
 # ags1
-Experiments with [Clojurescript](http://clojurescript.org) and
-[AgentScript](http://agentscript.org)
+An illustration of the use [AgentScript](http://agentscript.org)
+with [Clojurescript](http://clojurescript.org)
+
+Contains a port of Agentscript's jsmodel.html example model to
+Clojurescript.
 
 ## License
 
