@@ -27,7 +27,7 @@ Then execute
 
     lein deps
 
-to install Clojure and Clojurescript and to
+to install Clojure and Clojurescript, if necessary, and to
 install other necessary libraries.
 
 When that's done, execute
