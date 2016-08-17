@@ -20,15 +20,22 @@ Install [Leiningen](http://leiningen.org).
 Clone this repo, open a shell window, and change into the repo
 directory.
 
-Then execute `lein deps` to install Clojure and Clojurescript and to
+Then execute 
+
+    lein deps
+
+to install Clojure and Clojurescript and to
 install other necessary libraries.
 
-When that's done, execute `lein figwheel`.  After a few minutes, a new
-browser window should open with the model running it, and you should see
-a Clojurescript REPL prompt in your original shell window.  When you
-save changes to src/ags1/core.cljs, the code will be compiled and the browser 
-will reload the new configuration.  You can inspect variables in
-the running system at the REPL prompt.
+When that's done, execute
+
+    lein figwheel
+
+After a few minutes, a new browser window should open with the model
+running it, and you should see a Clojurescript REPL prompt in your
+original shell window.  When you save changes to src/ags1/core.cljs, the
+code will be compiled and the browser will reload the new configuration.
+You can inspect variables in the running system at the REPL prompt.
 
 To create a standalone version of this model that can be installed on
 the web (for example), exit from the repl (Ctrl-D will do the job), and
