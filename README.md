@@ -35,7 +35,7 @@ creates an instance of `Model` and calls `start` on it (near the end of
 core.cljs.  There's more information in comments in that file.  Also see
 the interop tips below.
 
-## How to run it
+## Installing and running
 
 Make sure you have a recent version of Java installed.
 
