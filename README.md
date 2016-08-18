@@ -8,11 +8,11 @@ Clojurescript.
 ## License
 
 This software is copyright 2016 by [Marshall
-Abrams](http://members.logical.net/~marshall/), and is distributed
-under the [Gnu General Public License version
+Abrams](http://members.logical.net/~marshall/), and is distributed under
+the [Gnu General Public License version
 3.0](http://www.gnu.org/copyleft/gpl.html) as specified in the file
 LICENSE, except where noted, or where code has been included that was
-released under a different license.  
+released under a different license.
 
 ## How to run it
 
@@ -44,12 +44,13 @@ To create a standalone version of this model that can be installed on
 the web (for example), exit from the repl (Ctrl-D will do the job), and
 run:
 
-    lein do clean, cljsbuild once max
+    lein do clean, cljsbuild once dist
 
 This will put all of the files needed to be installed into a directory
-tree under resources/public.  "max" refers to one of the configuration
-options in project.clj.  It uses the Google Closure compiler's "simple"
-compilation mode.
+tree under resources/public.  You'll need to install them on your
+server, with the same directory structure.  "dist" refers to one of the
+configuration options in project.clj. This configuration uses the Google
+Closure compiler's "simple" compilation mode.
 
 (The leiningen project.clj file also contains a "min" configuration that
 is supposed to allow fully optimized Google Closure compilation into a
@@ -95,7 +96,7 @@ For Clojurescript-Javascript interop it can be helpful to understand a
 little bit about the Javascript libraries you're using.  Here are some
 things that I found useful to know along the way.
 
-Agentscript is written in Coffeescript, which is then compiled to
+Agentscript is written in CoffeeScript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
 
 The main library file for Agentscript is agentscript.js (or
