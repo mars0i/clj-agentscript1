@@ -24,13 +24,14 @@ The source files used here are:
 
 The files in lib were copied from the Agentscript repo.  
 
-## Overview
+## How to modify it
 
-The main work you need to do to construct a model is to write functions
-that are inserted into the `setup` and `step` fields in
-`Model.prototype` (see core.cljs).  Then you create an instance of
-`Model` and call `start` on it (near the end of core.cljs.  There's more
-information in comments in that file.  Also see the interop tips below.
+The main work you need to do to modify this model is to revise the
+functions that are inserted into the `setup` and `step` fields in
+`Model.prototype` (see core.cljs).  After these are set, the source
+creates an instance of `Model` and calls `start` on it (near the end of
+core.cljs.  There's more information in comments in that file.  Also see
+the interop tips below.
 
 ## How to run it
 
