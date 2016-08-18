@@ -32,7 +32,7 @@ The main work you need to do to modify this model is to revise the
 functions that are inserted into the `setup` and `step` fields in
 `Model.prototype` (see core.cljs).  After these are set, the source
 creates an instance of `Model` and calls `start` on it (near the end of
-core.cljs.  There's more information in comments in that file.  Also see
+core.cljs).  There's more information in comments in core.cljs.  Also see
 the interop tips below.
 
 ## Installing and running
