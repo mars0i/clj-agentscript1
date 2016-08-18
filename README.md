@@ -1,6 +1,6 @@
-# ags1
-An illustration of the use [AgentScript](http://agentscript.org)
-with [Clojurescript](http://clojurescript.org)
+# clj-agentscript
+A simple illustration of the use [AgentScript](http://agentscript.org)
+in [Clojurescript](http://clojurescript.org)
 
 Contains a port of Agentscript's jsmodel.html example model to
 Clojurescript.
@@ -36,7 +36,7 @@ When that's done, execute
 
 After a few minutes, a new browser window should open with the model
 running it, and you should see a Clojurescript REPL prompt in your
-original shell window.  When you save changes to src/ags1/core.cljs, the
+original shell window.  When you save changes to src/cljmodel/core.cljs, the
 code will be compiled and the browser will reload the new configuration.
 You can inspect variables in the running system at the REPL prompt.
 
@@ -63,8 +63,7 @@ on this at some point.)
 The source files used here are:
 
 * resources/public/index.html
-* src/ags1/core.cljs (main source file)
-* resources/public/css/site.css (empty at present)
+* src/cljmodel/core.cljs (main source file)
 * resources/public/lib/*.js
 * project.clj (Leiningen configuration file)
 

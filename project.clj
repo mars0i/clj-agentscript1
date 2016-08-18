@@ -1,4 +1,4 @@
-(defproject ags1 "0.1.0-SNAPSHOT"
+(defproject clj-agentscript1 "0.1.0"
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -26,16 +26,16 @@
                 ;; the presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
-                :figwheel {:on-jsload "ags1.core/on-js-reload"
+                :figwheel {:on-jsload "cljmodel.core/on-js-reload"
                            ;; :open-urls will pop open your application
                            ;; in the default browser once Figwheel has
                            ;; started and complied your application.
                            ;; Comment this out once it no longer serves you.
                            :open-urls ["http://localhost:3449/index.html"]}
-                :compiler {:main ags1.core
+                :compiler {:main cljmodel.core
 			   ;:externs ["resources/lib/agentscript.js"] ;; MARSHALL's IS THIS RIGHT??
                            :asset-path "js/compiled/out"
-                           :output-to "resources/public/js/compiled/ags1.js"
+                           :output-to "resources/public/js/compiled/cljmodel.js"
                            :output-dir "resources/public/js/compiled/out"
                            :pretty-print false
                            :optimizations :none
@@ -46,20 +46,20 @@
                ;; This next build is an compressed minified build for
                ;; production. You can build this with:
                ;; lein cljsbuild once min
+               {:id "dist"
+                :source-paths ["src"]
+                :compiler {:asset-path "js/compiled/dist"
+                           :output-to "resources/public/js/compiled/cljmodel.js"
+                           :output-dir "resources/public/js/compiled/dist"
+                           :main cljmodel.core
+                           :optimizations :simple ; :none
+                           :pretty-print true}}
                {:id "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/ags1.js"
-                           :main ags1.core
+                :compiler {:output-to "resources/public/js/compiled/cljmodel.js"
+                           :main cljmodel.core
                            :optimizations :advanced
-                           :pretty-print false}}
-               {:id "max"
-                :source-paths ["src"]
-                :compiler {:asset-path "js/compiled/max"
-                           :output-to "resources/public/js/compiled/ags1.js"
-                           :output-dir "resources/public/js/compiled/max"
-                           :main ags1.core
-                           :optimizations :simple ; :none
-                           :pretty-print true}}]}
+                           :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default

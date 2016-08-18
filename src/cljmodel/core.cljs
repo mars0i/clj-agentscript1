@@ -2,7 +2,7 @@
 ;; Clojurescript port of jsmodel.html from the Agentscript site
 ;; Copyright 2016 Marshall Abrams. Released under GPL 3.0.
 
-(ns ags1.core)
+(ns cljmodel.core)
 
 (enable-console-print!) ; makes (println ...) calls like console.log(...) calls
 
@@ -63,7 +63,7 @@
 
 ;; Create the model:
 (defonce sim (new model sim-params)) ; '(model. sim-params)' works, too
-;(.debug sim) ; print to console, model vars in global, turtle "sprite sheet" on right
+(.debug sim) ; print to console, model vars in global, turtle "sprite sheet" on right
 (.start sim) ; Run it!  (.reset sim true) works here, too
 
 ;; Runs when figwheel reloads the code:
