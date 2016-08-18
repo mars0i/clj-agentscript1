@@ -24,7 +24,7 @@ The source files used here are:
 
 The files in lib were copied from the Agentscript repo.  
 
-## Overview of source code
+## Overview
 
 The main work you need to do to construct a model is to write functions
 that are inserted into the `setup` and `step` fields in
