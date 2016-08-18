@@ -107,7 +107,8 @@ Agentscript is written in CoffeeScript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
 
 Most of the example simulations at agentscript.org and its github repo
-are written in CoffeeScript.  (jsmodel.html is a Javascript model.)
+are written in CoffeeScript.  jsmodel.html is written in Javascript,
+however.
 
 You don't necessarily have to learn CoffeeScript (I didn't) to benefit
 from reading some parts of the CoffeeScript source files, if you're
