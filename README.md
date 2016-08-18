@@ -87,14 +87,14 @@ You can refer to the model from which you run `setup` and `step`
 functions that you've defined by using `this-as` within these function
 defs.  (There are other ways to do this with step(), but then you'd
 have to jump through hoops to avoid using `this-as` in setup, because
-it's called automatically when you new the model, whose constructor
+it's called automatically when you `new` the model, whose constructor
 calls `setupAndEmit()` which calls `setup()`.)
 
 ## Agentscript tips
 
 For Clojurescript-Javascript interop it can be helpful to understand a
 little bit about the Javascript libraries you're using.  Here are some
-things that I found useful to know along the way.
+things that I found useful along the way.
 
 Agentscript is written in CoffeeScript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
