@@ -92,8 +92,8 @@ is the current `this` in a given context.
 
 You can refer to the model from which you run `setup` and `step`
 functions that you've defined by using `this-as` within these function
-defs.  (There are other ways to do this with step(), but then you'd
-have to jump through hoops to avoid using `this-as` in setup, because
+defs.  (There are other ways to do this, but you'd
+have to jump through hoops to avoid using `this-as` in `setup` because
 it's called automatically when you `new` the model, whose constructor
 calls `setupAndEmit()` which calls `setup()`.)
 
