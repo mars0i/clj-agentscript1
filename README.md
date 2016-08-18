@@ -40,7 +40,9 @@ the interop tips below.
 
 Make sure you have a recent version of Java installed.
 
-Install [Leiningen](http://leiningen.org).
+Install [Leiningen](http://leiningen.org), which is a standard tool for
+building Clojurescript and Clojure programs and handling library
+dependencies.
 
 Clone this repo, open a shell window, and change into the repo
 directory.
@@ -49,8 +51,11 @@ Then execute
 
     lein deps
 
-to install Clojure and Clojurescript, if necessary, and to
-install other necessary libraries.
+to install appropriate versions of Clojure and Clojurescript, if
+necessary, and to install other necessary libraries.  Leiningen will
+read the project.clj file to see what Clojure, Java, Clojurescript, or
+possibly Javascript libraries need to be downloaded and installed on
+your system.
 
 When that's done, execute
 
@@ -58,9 +63,13 @@ When that's done, execute
 
 After a few minutes, a new browser window should open with the model
 running it, and you should see a Clojurescript REPL prompt in your
-original shell window.  When you save changes to src/cljmodel/core.cljs, the
-code will be compiled and the browser will reload the new configuration.
-It's possible to inspect variables in the running system at the REPL prompt.
+original shell window.  When you save changes to src/cljmodel/core.cljs,
+the code will be compiled and the browser will reload the new
+configuration. It's possible to inspect variables in the running system
+at the REPL prompt. (Most of this functionality is provided by the
+[figwheel](https://github.com/bhauman/lein-figwheel) add-on to
+Leiningen.  There are specifications in project.clj and some code in
+dev/user.clj that configure figwheel.)
 
 To create a standalone version of this model that can be installed on
 the web (for example), exit from the repl (Ctrl-D will do the job), and
