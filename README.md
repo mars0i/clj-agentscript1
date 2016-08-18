@@ -1,5 +1,5 @@
 # clj-agentscript
-A simple illustration of the use [AgentScript](http://agentscript.org)
+A simple illustration of the use of [AgentScript](http://agentscript.org)
 in [Clojurescript](http://clojurescript.org)
 
 ## What it is
