@@ -13,7 +13,9 @@ points--that could confuse someone unfamiliar with one of these tools.
 There is a runnable instance of the model at
 http://members.logical.net/~marshall/cljmodel .
 
-## Files
+## Source overview
+
+### Files
 
 The source files used here are:
 
@@ -24,7 +26,7 @@ The source files used here are:
 
 The files in lib were copied from the Agentscript repo.  
 
-## How to modify it
+### How to modify it
 
 The main work you need to do to modify this model is to revise the
 functions that are inserted into the `setup` and `step` fields in
@@ -78,7 +80,9 @@ wrapper files for the Agentscript libraries, to deal with the fact that
 Closure renames functions in its advanced compilation mode.  I may work
 on this at some point.)
 
-## Clojurescript-Javascript interop tips
+## Tips
+
+### Clojurescript-Javascript interop tips
 
 Mind the Clojurescript distinction between property accesses using
 `(.-foo myobj)` and function calls using `(.bar myobj)`.
@@ -98,7 +102,7 @@ have to jump through hoops to avoid using `this-as` in `setup` because
 it's called automatically when you `new` the model, whose constructor
 calls `setupAndEmit()` which calls `setup()`.)
 
-## Agentscript tips
+### Agentscript tips
 
 For Clojurescript-Javascript interop it can be helpful to understand a
 little bit about the Javascript libraries you're using.  Here are some
