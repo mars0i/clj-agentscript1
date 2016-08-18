@@ -2,17 +2,27 @@
 A simple illustration of the use [AgentScript](http://agentscript.org)
 in [Clojurescript](http://clojurescript.org)
 
-Contains a port of Agentscript's jsmodel.html example model to
-Clojurescript.
+## What it is
 
-## License
+This a translation of Agentscript's jsmodel.html example model into
+Clojurescript.  It's  a very simple model in which turtles run around
+randomly.  However, it illustrates a few fine points about using
+Agentscript with Clojurescript that might confuse someone unfamiliar
+with one of these tools.
 
-This software is copyright 2016 by [Marshall
-Abrams](http://members.logical.net/~marshall/), and is distributed under
-the [Gnu General Public License version
-3.0](http://www.gnu.org/copyleft/gpl.html) as specified in the file
-LICENSE, except where noted, or where code has been included that was
-released under a different license.
+There is a runnable instance of the model at
+http://members.logical.net/~marshall/cljmodel .
+
+## Files
+
+The source files used here are:
+
+* resources/public/index.html (runs the model)
+* src/cljmodel/core.cljs (main source file)
+* resources/public/lib/*.js (Agentscript)
+* project.clj (Leiningen configuration file)
+
+The files in lib were copied from the Agentscript repo.  
 
 ## How to run it
 
@@ -58,17 +68,6 @@ single Javascript file, but that won't work without some Clojurescript
 wrapper files for the Agentscript libraries, to deal with the fact that
 Closure renames functions in its advanced compilation mode.  I may work
 on this at some point.)
-
-## Files
-
-The source files used here are:
-
-* resources/public/index.html
-* src/cljmodel/core.cljs (main source file)
-* resources/public/lib/*.js
-* project.clj (Leiningen configuration file)
-
-The files in lib were copied from the Agentscript repo.  
 
 ## Clojurescript-Javascript interop tips
 
@@ -118,3 +117,12 @@ from reading some parts of the CoffeeScript source files, if you're
 willing to do some guessing.  Among other things, the template.coffee
 model contains many useful comments and configuration options (or see
 its generated doc file).
+
+## License
+
+This software is copyright 2016 by [Marshall
+Abrams](http://members.logical.net/~marshall/), and is distributed under
+the [Gnu General Public License version
+3.0](http://www.gnu.org/copyleft/gpl.html) as specified in the file
+LICENSE, except where noted, or where code has been included that was
+released under a different license.
