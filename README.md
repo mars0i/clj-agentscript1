@@ -24,6 +24,14 @@ The source files used here are:
 
 The files in lib were copied from the Agentscript repo.  
 
+## Overview of source code
+
+The main work you need to do to construct a model is to write functions
+that are inserted into the `setup` and `step` fields in
+`Model.prototype` (see core.cljs).  Then you create an instance of
+`Model` and call `start` on it (near the end of core.cljs.  There's more
+information in comments in that file.  Also see the interop tips below.
+
 ## How to run it
 
 Make sure you have a recent version of Java installed.
@@ -98,17 +106,6 @@ things that I found useful along the way.
 Agentscript is written in CoffeeScript, which is then compiled to
 Javascript.  CoffeeScript source files end in ".coffee".
 
-The main library file for Agentscript is agentscript.js (or
-agentscript.min.js), which is compiled from model.coffee.  See that file
-or the doc generated from it for more info about what's going on in
-agentscript.js.  
-
-In agentscript.js, `this` usually refers to an instance of the `Model`
-class that's defined there.  This is why a "this" var that you define
-using `this-as` in your Clojurescript `step`, `setup`, or `startup`
-functions refer to this instance: They will be called by `Model` code
-running in your instance of `Model`.
-
 Most of the example simulations at agentscript.org and its github repo
 are written in CoffeeScript.  (jsmodel.html is a Javascript model.)
 
@@ -117,6 +114,18 @@ from reading some parts of the CoffeeScript source files, if you're
 willing to do some guessing.  Among other things, the template.coffee
 model contains many useful comments and configuration options (or see
 its generated doc file).
+
+The main library file for Agentscript is agentscript.js (or
+agentscript.min.js), which is compiled from model.coffee and other
+CoffeeScript source files, I believe.  The CoffeeScript source files (or
+doc generated from them) contain comments that are helpful for
+understanding what's going on in agentscript.js.
+
+In agentscript.js, `this` usually refers to an instance of the `Model`
+class that's defined there.  This is why a "this" var that you define
+using `this-as` in your Clojurescript `step`, `setup`, or `startup`
+functions refer to this instance: They will be called by `Model` code
+running in your instance of `Model`.
 
 ## License
 
