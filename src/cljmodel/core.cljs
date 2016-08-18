@@ -34,19 +34,19 @@
 
             (set! (.-refreshPatches this-inst) false) ; not updating patches
             (set! (.-refreshLinks this-inst) false)   ; no links to update
-            (.setUseSprites turtles)                  ; faster bitmap turtles
+
+            (doseq [patch patches]
+              (set! (.-color patch) (.randomGray util)))
+
             (set! (.-population this-inst) 100)       ; how many turtles?
             (set! (.-speed this-inst) 0.5)            ; how fast do they go?
             (set! (.-wiggle this-inst) (.degToRad util 30)) ; random turn param
-
-            (doseq [p patches]
-              (set! (.-color p) (.randomGray util)))
-
+            (.setUseSprites turtles)                  ; faster bitmap turtles
             (.create turtles (.-population this-inst))
 
-            (doseq [t turtles]
-              (let [pt (js->clj (.randomPt patches))]
-                (.setXY t (first pt) (second pt))))
+            (doseq [turtle turtles]
+              (let [point (js->clj (.randomPt patches))]
+                (.setXY turtle (first point) (second point))))
 
             (println "patches; "  (count patches) " turtles: " (count turtles))))))
 
