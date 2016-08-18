@@ -6,9 +6,10 @@ in [Clojurescript](http://clojurescript.org)
 
 This a translation of Agentscript's jsmodel.html example model into
 Clojurescript.  It's  a very simple model in which turtles run around
-randomly.  However, the source code illustrates a few fine points about
-using Agentscript with Clojurescript--"obvious once you know it"
-points--that could confuse someone unfamiliar with one of these tools.
+randomly.  However, the Clojurescript source code here, in core.cljs,
+illustrates a few fine points about using Agentscript with
+Clojurescript--"obvious once you know it" points--that could confuse
+someone unfamiliar with one of these tools.
 
 There is a runnable instance of the model at
 http://members.logical.net/~marshall/cljmodel .
