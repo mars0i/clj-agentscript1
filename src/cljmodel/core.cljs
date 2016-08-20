@@ -18,8 +18,8 @@
 ;; convenience defs for use below
 (def abm (this-as this-top (.-ABM this-top))) ; uses this = top-level window
 (def util (.-Util abm))
-(def model (.-Model abm))
-(def prototype (.-prototype model))
+(def Model (.-Model abm))
+(def prototype (.-prototype Model))
 
 ;; startup runs when an instance of Model is created
 (set! (.-startup prototype) (fn [] (println "startup")))
@@ -62,7 +62,7 @@
 
 
 ;; Create the model:
-(defonce sim (new model sim-params)) ; '(model. sim-params)' works, too
+(defonce sim (Model. sim-params)) ; '(new Model sim-params)' works, too
 (.debug sim) ; print to console, model vars in global, turtle "sprite sheet" on right
 (.start sim) ; Run it!  (.reset sim true) works here, too
 
