@@ -125,17 +125,20 @@ Most of the example simulations at agentscript.org and its github repo
 are written in CoffeeScript.  jsmodel.html is written in Javascript,
 however.
 
-You don't necessarily have to learn CoffeeScript (I didn't) to benefit
-from reading some parts of the CoffeeScript source files, if you're
-willing to do some guessing.  Among other things, the template.coffee
-model contains many useful comments and configuration options (or see
-its generated doc file).
+You don't necessarily have to learn CoffeeScript (I didn't, at first) to
+benefit from reading some parts of the CoffeeScript source files, if
+you're willing to do some guessing.  Among other things, the
+template.coffee model contains many useful comments and configuration
+options (or see its generated doc file).
 
 The main library file for Agentscript is agentscript.js (or
 agentscript.min.js), which is compiled from model.coffee and other
-CoffeeScript source files, I believe.  The CoffeeScript source files (or
-doc generated from them) contain comments that are helpful for
-understanding what's going on in agentscript.js.
+CoffeeScript source files, I believe.  The CoffeeScript source files
+(or doc generated from them) contain comments that are helpful for
+understanding what's going on in agentscript.js.  [This
+part](http://coffeescript.org/#classes) of the  CoffeesScript
+documentation is helpful for understanding the structure of
+agentscript.js.
 
 In agentscript.js, `this` usually refers to an instance of the `Model`
 class that's defined there.  This is why a "this" var that you define
