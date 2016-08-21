@@ -138,7 +138,7 @@ CoffeeScript source files, I believe.  The CoffeeScript source files
 understanding what's going on in agentscript.js.  [This
 part](http://coffeescript.org/#classes) of the  CoffeesScript
 documentation is helpful for understanding the structure of
-agentscript.js.
+agentscript.js.  In Coffeescript, `@foo` compiles to `this.foo`.
 
 In agentscript.js, `this` usually refers to an instance of the `Model`
 class that's defined there.  This is why a "this" var that you define
