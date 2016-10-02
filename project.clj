@@ -73,7 +73,7 @@
              ;; if you want to embed a ring handler into the figwheel http-kit
              ;; server, this is for simple ring servers, if this
 
-             ;; doesn't work for you just run your own server :) (see lein-ring)
+             ;; doesn't work for you just run your own server (see lein-ring)
 
              ;; :ring-handler hello_world.server/handler
 
@@ -102,15 +102,15 @@
   ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
 
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.7.2"]
-                                  [figwheel-sidecar "0.5.4-7"]
-                                  [com.cemerick/piggieback "0.2.1"]]
-                   ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src" "dev"]
-                   ;; for CIDER
-                   ;; :plugins [[cider/cider-nrepl "0.12.0"]]
-                   :repl-options {; for nREPL dev you really need to limit output
-                                  :init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
-
+;  :profiles {:dev {:dependencies [[binaryage/devtools "0.7.2"]
+;                                  [figwheel-sidecar "0.5.4-7"]
+;                                  [com.cemerick/piggieback "0.2.1"]]
+;                   ;; need to add dev source path here to get user.clj loaded
+;                   :source-paths ["src" "dev"]
+;                   ;; for CIDER
+;                   ;; :plugins [[cider/cider-nrepl "0.12.0"]]
+;                   :repl-options {; for nREPL dev you really need to limit output
+;                                  :init (set! *print-length* 50)
+;                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+;
 )
